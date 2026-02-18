@@ -32,3 +32,15 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# iOS credentials
+GoogleService-Info.plist
+Pods/
+*.xcworkspace
+
+# Server secrets
+server/.env
+.env
+
+# macOS
+.DS_Store
