@@ -18,7 +18,6 @@ val networkModule = module {
 }
 
 val authModule = module {
-    single { AuthRepository(get()) }
     viewModel { AuthViewModel(get()) }
 }
 
