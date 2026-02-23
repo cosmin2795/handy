@@ -1,24 +1,26 @@
 package com.handy.di
 
-import com.handy.auth.AuthRepository
-import com.handy.auth.AuthViewModel
-import com.handy.network.ApiClient
+import com.handy.auth.data.AuthRepositoryImpl
+import com.handy.auth.data.remote.AuthApi
+import com.handy.auth.domain.repository.AuthRepository
+import com.handy.auth.ui.AuthViewModel
+import com.handy.home.ui.HomeViewModel
+import com.handy.network.createHttpClient
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-/**
- * Platform-specific Koin module. Each platform (Android/iOS) provides its own
- * implementation of platform-dependent dependencies.
- */
 expect val platformModule: Module
 
 val networkModule = module {
-    single { ApiClient() }
+    single { createHttpClient() }
+    single { AuthApi(get()) }
 }
 
 val authModule = module {
+    single<AuthRepository> { AuthRepositoryImpl(get()) }
     viewModel { AuthViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
 }
 
 val appModules = listOf(networkModule, authModule, platformModule)

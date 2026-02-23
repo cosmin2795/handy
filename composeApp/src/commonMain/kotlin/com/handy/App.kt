@@ -6,9 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.handy.auth.AuthViewModel
-import com.handy.ui.home.HomeScreen
-import com.handy.ui.login.LoginScreen
+import com.handy.auth.ui.AuthViewModel
+import com.handy.auth.ui.LoginScreen
+import com.handy.home.ui.HomeScreen
 import com.handy.ui.theme.HandyTheme
 import org.koin.compose.viewmodel.koinViewModel
 
