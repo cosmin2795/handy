@@ -1,4 +1,4 @@
-package com.handy.ui.home
+package com.handy.home.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,13 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.handy.auth.AuthViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(
     onSignOut: () -> Unit,
-    viewModel: AuthViewModel = koinViewModel(),
+    viewModel: HomeViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 

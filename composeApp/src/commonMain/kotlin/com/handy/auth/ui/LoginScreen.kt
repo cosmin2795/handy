@@ -1,4 +1,4 @@
-package com.handy.ui.login
+package com.handy.auth.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.handy.auth.AuthViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -63,7 +62,6 @@ fun LoginScreen(
         if (uiState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.size(48.dp))
         } else {
-            // Google Sign-In Button
             Button(
                 onClick = { viewModel.signInWithGoogle() },
                 modifier = Modifier
@@ -82,7 +80,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Facebook Login Button
             OutlinedButton(
                 onClick = { viewModel.signInWithFacebook() },
                 modifier = Modifier
