@@ -1,11 +1,4 @@
-package com.handy.auth
-
-data class AuthUser(
-    val id: String,
-    val name: String,
-    val email: String,
-    val photoUrl: String? = null,
-)
+package com.handy.auth.domain.model
 
 sealed class AuthResult {
     data class Success(val user: AuthUser, val token: String) : AuthResult()

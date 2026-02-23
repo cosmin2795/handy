@@ -1,27 +1,30 @@
-package com.handy.auth
+package com.handy.auth.data
 
-import com.handy.network.ApiClient
+import com.handy.auth.data.remote.AuthApi
+import com.handy.auth.domain.model.AuthResult
+import com.handy.auth.domain.model.AuthUser
+import com.handy.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-actual class AuthRepository(
-    private val apiClient: ApiClient,
-) {
+actual class AuthRepositoryImpl actual constructor(
+    private val authApi: AuthApi,
+) : AuthRepository {
+
     private var storedUser: AuthUser? = null
 
-    actual suspend fun signInWithGoogle(): AuthResult {
+    actual override suspend fun signInWithGoogle(): AuthResult {
         return try {
             // On iOS, use the GoogleSignIn SDK via Objective-C interop.
-            // The pattern below is pseudocode — wire this to GIDSignIn.sharedInstance.
+            // Wire this to GIDSignIn.sharedInstance.signIn(withPresenting:) below.
             val idToken = suspendCancellableCoroutine<String?> { continuation ->
                 // GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { result, error in
                 //     continuation.resume(result?.user.idToken?.tokenString)
                 // }
-                // For now, resume with null to indicate no native integration yet.
                 continuation.resume(null)
             } ?: return AuthResult.Cancelled
 
-            val response = apiClient.authenticateWithGoogle(idToken)
+            val response = authApi.authenticateWithGoogle(idToken)
             val user = AuthUser(
                 id = response.user.id,
                 name = response.user.name,
@@ -35,20 +38,19 @@ actual class AuthRepository(
         }
     }
 
-    actual suspend fun signInWithFacebook(): AuthResult {
+    actual override suspend fun signInWithFacebook(): AuthResult {
         return try {
             // On iOS, use the Facebook iOS SDK via Objective-C interop.
-            // Wire this to FBSDKLoginManager.
+            // Wire this to FBSDKLoginManager below.
             val accessToken = suspendCancellableCoroutine<String?> { continuation ->
                 // let manager = LoginManager()
                 // manager.logIn(permissions: ["public_profile", "email"], from: viewController) { result, error in
                 //     continuation.resume(result?.token?.tokenString)
                 // }
-                // For now, resume with null to indicate no native integration yet.
                 continuation.resume(null)
             } ?: return AuthResult.Cancelled
 
-            val response = apiClient.authenticateWithFacebook(accessToken)
+            val response = authApi.authenticateWithFacebook(accessToken)
             val user = AuthUser(
                 id = response.user.id,
                 name = response.user.name,
@@ -62,11 +64,11 @@ actual class AuthRepository(
         }
     }
 
-    actual suspend fun signOut() {
+    actual override suspend fun signOut() {
         // GIDSignIn.sharedInstance.signOut()
         // LoginManager().logOut()
         storedUser = null
     }
 
-    actual fun currentUser(): AuthUser? = storedUser
+    actual override fun currentUser(): AuthUser? = storedUser
 }

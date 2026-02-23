@@ -1,7 +1,10 @@
-package com.handy.auth
+package com.handy.auth.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.handy.auth.domain.model.AuthResult
+import com.handy.auth.domain.model.AuthUser
+import com.handy.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
