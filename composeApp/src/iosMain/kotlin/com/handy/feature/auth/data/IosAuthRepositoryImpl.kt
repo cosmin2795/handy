@@ -4,8 +4,6 @@ import com.handy.feature.auth.data.remote.AuthApi
 import com.handy.feature.auth.domain.model.AuthResult
 import com.handy.feature.auth.domain.model.AuthUser
 import com.handy.feature.auth.domain.repository.AuthRepository
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
 
 actual class AuthRepositoryImpl actual constructor(
     private val authApi: AuthApi,
@@ -13,17 +11,8 @@ actual class AuthRepositoryImpl actual constructor(
 
     private var storedUser: AuthUser? = null
 
-    actual override suspend fun signInWithGoogle(): AuthResult {
+    actual override suspend fun signInWithGoogle(idToken: String): AuthResult {
         return try {
-            // On iOS, use the GoogleSignIn SDK via Objective-C interop.
-            // Wire this to GIDSignIn.sharedInstance.signIn(withPresenting:) below.
-            val idToken = suspendCancellableCoroutine<String?> { continuation ->
-                // GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { result, error in
-                //     continuation.resume(result?.user.idToken?.tokenString)
-                // }
-                continuation.resume(null)
-            } ?: return AuthResult.Cancelled
-
             val response = authApi.authenticateWithGoogle(idToken)
             val user = AuthUser(
                 id = response.user.id,
@@ -38,18 +27,8 @@ actual class AuthRepositoryImpl actual constructor(
         }
     }
 
-    actual override suspend fun signInWithFacebook(): AuthResult {
+    actual override suspend fun signInWithFacebook(accessToken: String): AuthResult {
         return try {
-            // On iOS, use the Facebook iOS SDK via Objective-C interop.
-            // Wire this to FBSDKLoginManager below.
-            val accessToken = suspendCancellableCoroutine<String?> { continuation ->
-                // let manager = LoginManager()
-                // manager.logIn(permissions: ["public_profile", "email"], from: viewController) { result, error in
-                //     continuation.resume(result?.token?.tokenString)
-                // }
-                continuation.resume(null)
-            } ?: return AuthResult.Cancelled
-
             val response = authApi.authenticateWithFacebook(accessToken)
             val user = AuthUser(
                 id = response.user.id,

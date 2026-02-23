@@ -32,6 +32,18 @@ fun LoginScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    val googleLauncher = rememberGoogleAuthLauncher(
+        onToken = { idToken -> viewModel.onGoogleSignIn(idToken) },
+        onError = { message -> viewModel.onSignInError(message) },
+        onCancel = { viewModel.onSignInCancelled() },
+    )
+
+    val facebookLauncher = rememberFacebookAuthLauncher(
+        onToken = { accessToken -> viewModel.onFacebookSignIn(accessToken) },
+        onError = { message -> viewModel.onSignInError(message) },
+        onCancel = { viewModel.onSignInCancelled() },
+    )
+
     if (uiState.user != null) {
         onLoginSuccess()
         return
@@ -63,7 +75,7 @@ fun LoginScreen(
             CircularProgressIndicator(modifier = Modifier.size(48.dp))
         } else {
             Button(
-                onClick = { viewModel.signInWithGoogle() },
+                onClick = { googleLauncher() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -81,7 +93,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedButton(
-                onClick = { viewModel.signInWithFacebook() },
+                onClick = { facebookLauncher() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
