@@ -8,15 +8,14 @@ import androidx.activity.enableEdgeToEdge
 import com.facebook.CallbackManager
 import com.handy.feature.auth.ActivityProvider
 import com.handy.di.appModules
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.compose.KoinContext
 import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
 
-    private val facebookCallbackManager: CallbackManager by lazy {
-        CallbackManager.Factory.create()
-    }
+    private val facebookCallbackManager: CallbackManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

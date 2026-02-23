@@ -1,6 +1,5 @@
 package com.handy.feature.auth.data
 
-import android.content.Context
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -8,35 +7,26 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.handy.feature.auth.ActivityProvider
 import com.handy.feature.auth.ActivityResultRegistry
-import com.handy.feature.auth.AndroidContextProvider
 import com.handy.feature.auth.data.remote.AuthApi
 import com.handy.feature.auth.domain.model.AuthResult
 import com.handy.feature.auth.domain.model.AuthUser
 import com.handy.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import kotlin.coroutines.resume
 
 actual class AuthRepositoryImpl actual constructor(
     private val authApi: AuthApi,
-) : AuthRepository {
-
-    private val context: Context get() = AndroidContextProvider.applicationContext
+) : AuthRepository, KoinComponent {
 
     private var storedUser: AuthUser? = null
 
-    private val googleSignInClient: GoogleSignInClient by lazy {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(GOOGLE_CLIENT_ID)
-            .requestEmail()
-            .requestProfile()
-            .build()
-        GoogleSignIn.getClient(context, gso)
-    }
-
-    private val facebookCallbackManager: CallbackManager = CallbackManager.Factory.create()
+    private val googleSignInClient: GoogleSignInClient by inject()
+    private val facebookCallbackManager: CallbackManager by inject()
+    private val loginManager: LoginManager by inject()
 
     actual override suspend fun signInWithGoogle(): AuthResult {
         return try {
@@ -81,7 +71,7 @@ actual class AuthRepositoryImpl actual constructor(
                 val activity = ActivityProvider.currentActivity
                     ?: return@suspendCancellableCoroutine continuation.resume(null)
 
-                LoginManager.getInstance().registerCallback(
+                loginManager.registerCallback(
                     facebookCallbackManager,
                     object : FacebookCallback<LoginResult> {
                         override fun onSuccess(result: LoginResult) = continuation.resume(result)
@@ -89,8 +79,7 @@ actual class AuthRepositoryImpl actual constructor(
                         override fun onError(error: FacebookException) = continuation.resume(null)
                     },
                 )
-                LoginManager.getInstance()
-                    .logInWithReadPermissions(activity, listOf("public_profile", "email"))
+                loginManager.logInWithReadPermissions(activity, listOf("public_profile", "email"))
             }
 
             if (loginResult == null) return AuthResult.Cancelled
@@ -112,14 +101,9 @@ actual class AuthRepositoryImpl actual constructor(
 
     actual override suspend fun signOut() {
         googleSignInClient.signOut()
-        LoginManager.getInstance().logOut()
+        loginManager.logOut()
         storedUser = null
     }
 
     actual override fun currentUser(): AuthUser? = storedUser
-
-    companion object {
-        // Replace with your actual Web Client ID from Google Cloud Console
-        private const val GOOGLE_CLIENT_ID = "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com"
-    }
 }
