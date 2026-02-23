@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.facebook.CallbackManager
-import com.handy.auth.ActivityProvider
+import com.handy.feature.auth.ActivityProvider
 import com.handy.di.appModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.compose.KoinContext

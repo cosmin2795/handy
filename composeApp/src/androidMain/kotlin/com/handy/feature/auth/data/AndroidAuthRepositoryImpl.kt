@@ -1,4 +1,4 @@
-package com.handy.auth.data
+package com.handy.feature.auth.data
 
 import android.content.Context
 import com.facebook.CallbackManager
@@ -9,13 +9,13 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.handy.auth.ActivityProvider
-import com.handy.auth.ActivityResultRegistry
-import com.handy.auth.AndroidContextProvider
-import com.handy.auth.data.remote.AuthApi
-import com.handy.auth.domain.model.AuthResult
-import com.handy.auth.domain.model.AuthUser
-import com.handy.auth.domain.repository.AuthRepository
+import com.handy.feature.auth.ActivityProvider
+import com.handy.feature.auth.ActivityResultRegistry
+import com.handy.feature.auth.AndroidContextProvider
+import com.handy.feature.auth.data.remote.AuthApi
+import com.handy.feature.auth.domain.model.AuthResult
+import com.handy.feature.auth.domain.model.AuthUser
+import com.handy.feature.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 

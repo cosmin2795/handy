@@ -1,4 +1,4 @@
-package com.handy.home.ui
+package com.handy.feature.home.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

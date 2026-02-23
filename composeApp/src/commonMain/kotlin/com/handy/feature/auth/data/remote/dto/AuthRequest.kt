@@ -1,4 +1,4 @@
-package com.handy.auth.data.remote.dto
+package com.handy.feature.auth.data.remote.dto
 
 import kotlinx.serialization.Serializable
 

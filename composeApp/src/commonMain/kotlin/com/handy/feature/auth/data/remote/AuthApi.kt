@@ -1,8 +1,8 @@
-package com.handy.auth.data.remote
+package com.handy.feature.auth.data.remote
 
-import com.handy.auth.data.remote.dto.AuthResponse
-import com.handy.auth.data.remote.dto.FacebookAuthRequest
-import com.handy.auth.data.remote.dto.GoogleAuthRequest
+import com.handy.feature.auth.data.remote.dto.AuthResponse
+import com.handy.feature.auth.data.remote.dto.FacebookAuthRequest
+import com.handy.feature.auth.data.remote.dto.GoogleAuthRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post

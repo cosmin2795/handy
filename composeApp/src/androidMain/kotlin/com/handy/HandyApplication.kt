@@ -2,7 +2,7 @@ package com.handy
 
 import android.app.Application
 import com.facebook.FacebookSdk
-import com.handy.auth.AndroidContextProvider
+import com.handy.feature.auth.AndroidContextProvider
 
 class HandyApplication : Application() {
     override fun onCreate() {

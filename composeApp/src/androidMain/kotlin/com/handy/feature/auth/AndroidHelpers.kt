@@ -1,4 +1,4 @@
-package com.handy.auth
+package com.handy.feature.auth
 
 import android.app.Activity
 import android.content.Context

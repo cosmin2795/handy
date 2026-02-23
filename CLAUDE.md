@@ -16,7 +16,7 @@
 ### Client (shared module)
 Clean Architecture with 3 layers:
 ```
-shared/src/commonMain/kotlin/
+shared/src/commonMain/kotlin/feature
 ├── domain/     → models, use cases, repository interfaces (pure Kotlin)
 ├── data/       → repository implementations, SQLDelight, Ktor client
 └── ui/         → Compose MP screens, ViewModels, navigation
@@ -53,3 +53,5 @@ Platform modules (androidApp, iosApp) contain only:
 - ViewModels live in shared/ui — never in platform modules
 - Complete navigation graph lives in shared/ui
 - No `LocalContext.current` in commonMain — use expect/actual
+- Each feature has its own package: `com.myapp.feature.{name}`
+- Shared utilities live in `com.myapp.core` — never put feature code in core

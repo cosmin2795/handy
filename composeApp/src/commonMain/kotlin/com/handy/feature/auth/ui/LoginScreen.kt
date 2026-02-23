@@ -1,4 +1,4 @@
-package com.handy.auth.ui
+package com.handy.feature.auth.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

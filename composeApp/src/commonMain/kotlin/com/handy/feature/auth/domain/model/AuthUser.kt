@@ -1,4 +1,4 @@
-package com.handy.auth.domain.model
+package com.handy.feature.auth.domain.model
 
 data class AuthUser(
     val id: String,
